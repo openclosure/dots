@@ -1,0 +1,82 @@
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
+
+" ================ General Config ====================
+
+if has('gui_running')			 " only run if executing as gVim
+  set guioptions-=T  			 " no toolbar
+  set guioptions-=m              " no menubar
+  set guifont=ProFontWindows:h9  " Font
+  set lines=40 columns=125       " default opening size
+  colorscheme monokai			 " default theme
+endif
+
+filetype off                    " required
+syntax enable                   " syntax highlighting
+set encoding=utf-8 			    " mystery encoding option
+set autoread                    " reload files changed outside vim
+
+set cursorline       		    " highlight current line
+set wildmenu         		    " visual autocomplete for command menu
+set showmatch          		    " highlight matching [{()}]
+set visualbell                  " no sounds
+set number						" gutter numbers
+
+set nowrap       				" don't wrap lines
+set linebreak    				" wrap lines at convenient points
+
+set splitbelow                  " Horizontal splits open below current file
+set splitright                  " Vertical splits open to the right of the current file
+
+set expandtab                   " use spaces instead of tabs
+set tabstop=4                   " insert 4 spaces whenever the tab key is pressed
+
+set backspace=indent,eol,start  " make backspace behave like it should
+
+set incsearch       		    " search as characters are entered
+set hlsearch        		    " highlight matches
+set ignorecase					" ignore case when searching
+set smartcase                   " ...unless we type a capital
+
+" ================ Custom Keybinds ====================
+
+let mapleader=","                           " leader is comma
+nnoremap <leader><space> :nohlsearch<CR>    " turn off search highlight
+
+
+" ================ Plugin Load ====================
+
+set rtp+=P:/config/vim/bundle/Vundle.vim
+call vundle#begin('P:/config/vim/bundle')
+
+Plugin 'jpalardy/vim-slime'
+Plugin 'jiangmiao/auto-pairs'
+
+call vundle#end()
+filetype plugin indent on
+
+
+" ================ Plugin Options ====================
+
+let g:slime_target = "vimterminal"
+
+" ================ Custom Functions ====================
+
+function! ToggleWindowHorizontalVerticalSplit()
+  if !exists('t:splitType')
+    let t:splitType = 'vertical'
+  endif
+
+  if t:splitType == 'vertical' " is vertical switch to horizontal
+    windo wincmd K
+    let t:splitType = 'horizontal'
+
+  else " is horizontal switch to vertical
+    windo wincmd H
+    let t:splitType = 'vertical'
+  endif
+endfunction
+
+nnoremap <silent> <leader>r :call ToggleWindowHorizontalVerticalSplit()<cr>
