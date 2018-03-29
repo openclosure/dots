@@ -1,7 +1,9 @@
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
 set nocompatible
 
-" ================ GUI Options ====================
-" Only used when running gVim on windows
+
+" ================ General Config ====================
 
 if has('gui_running')			 " only run if executing as gVim
   set guioptions-=T  			 " no toolbar
@@ -10,8 +12,6 @@ if has('gui_running')			 " only run if executing as gVim
   set lines=40 columns=125       " default opening size
   colorscheme monokai			 " default theme
 endif
-
-" ================ General Config ====================
 
 filetype off                    " required
 syntax enable                   " syntax highlighting
@@ -31,7 +31,7 @@ set splitbelow                  " Horizontal splits open below current file
 set splitright                  " Vertical splits open to the right of the current file
 
 set expandtab                   " use spaces instead of tabs
-set tabstop=2                   " insert 4 spaces whenever the tab key is pressed
+set tabstop=4                   " insert 4 spaces whenever the tab key is pressed
 
 set backspace=indent,eol,start  " make backspace behave like it should
 
@@ -46,27 +46,56 @@ let mapleader=","                           " leader is comma
 nnoremap <leader><space> :nohlsearch<CR>    " turn off search highlight
 
 " ================ Plugin Load - VIM ====================
+
 if !has('nvim')
 	set rtp+=P:/config/vim/bundle/Vundle.vim
 	call vundle#begin('P:/config/vim/bundle')
 
 	Plugin 'jpalardy/vim-slime'
 	Plugin 'jiangmiao/auto-pairs'
-
+	
 	call vundle#end()
-
-    filetype plugin indent on
+	
+	filetype plugin indent on
 
 	let g:slime_target = "vimterminal"
+
 endif
 
+
 " ================ Plugin Load - NVIM ====================
+
 if has('nvim')
-        filetype plugin indent on
+	set runtimepath+=/home/evan/.config/nvim/plug/repos/github.com/Shougo/dein.vim/
+
+	if dein#load_state('/home/evan/.config/nvim/plug/')
+
+	  call dein#begin('/home/evan/.config/nvim/plug/')
+  	  call dein#add('/home/evan/.config/nvim/plug/repos/github.com/Shougo/dein.vim/')  
+  	"  call dein#add('Shougo/deoplete.nvim')
+  	"  call dein#add('davidhalter/jedi')
+	"  call dein#add('zchee/deoplete-jedi')
+
+	  " Python plugins
+  	"  call dein#add('neovim/python-client')
+  	"  call dein#add('ivanov/vim-ipython')
+	
+	  call dein#add('jiangmiao/auto-pairs')
+  	  call dein#add('jpalardy/vim-slime')
+
+
+  	  call dein#end()
+  	  call dein#save_state()
+	endif
+
+	if dein#check_install()
+  	  call dein#install()
+	endif
+
+	filetype plugin indent on
 endif
 
 " ================ Custom Functions ====================
-
 
 function! ToggleWindowHorizontalVerticalSplit()
   if !exists('t:splitType')
