@@ -44,6 +44,9 @@ set smartcase                   " ...unless we type a capital
 
 let mapleader=","                           " leader is comma
 nnoremap <leader><space> :nohlsearch<CR>    " turn off search highlight
+ 
+nnoremap <C-Left> :tabprevious<CR>          " allow ctrl + left to go tab left
+nnoremap <C-Right> :tabnext<CR>				" allow ctrl + right to go tab right
 
 
 " ================ Plugin Load ====================
