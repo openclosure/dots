@@ -48,22 +48,55 @@ nnoremap <leader><space> :nohlsearch<CR>    " turn off search highlight
 nnoremap <C-Left> :tabprevious<CR>          " allow ctrl + left to go tab left
 nnoremap <C-Right> :tabnext<CR>				" allow ctrl + right to go tab right
 
+" ================ Plugin Load - VIM ====================
 
-" ================ Plugin Load ====================
+if !has('nvim')
+	set rtp+=P:/config/vim/bundle/Vundle.vim
+	call vundle#begin('P:/config/vim/bundle')
 
-set rtp+=P:/config/vim/bundle/Vundle.vim
-call vundle#begin('P:/config/vim/bundle')
+	Plugin 'jpalardy/vim-slime'
+	Plugin 'jiangmiao/auto-pairs'
+	
+	call vundle#end()
+	
+	filetype plugin indent on
 
-Plugin 'jpalardy/vim-slime'
-Plugin 'jiangmiao/auto-pairs'
+	let g:slime_target = "vimterminal"
 
-call vundle#end()
-filetype plugin indent on
+endif
 
 
-" ================ Plugin Options ====================
+" ================ Plugin Load - NVIM ====================
 
-let g:slime_target = "vimterminal"
+if has('nvim')
+	set runtimepath+=/home/evan/.config/nvim/plug/repos/github.com/Shougo/dein.vim/
+
+	if dein#load_state('/home/evan/.config/nvim/plug/')
+
+	  call dein#begin('/home/evan/.config/nvim/plug/')
+  	  call dein#add('/home/evan/.config/nvim/plug/repos/github.com/Shougo/dein.vim/')  
+  	"  call dein#add('Shougo/deoplete.nvim')
+  	"  call dein#add('davidhalter/jedi')
+	"  call dein#add('zchee/deoplete-jedi')
+
+	  " Python plugins
+  	"  call dein#add('neovim/python-client')
+  	"  call dein#add('ivanov/vim-ipython')
+	
+	  call dein#add('jiangmiao/auto-pairs')
+  	  call dein#add('jpalardy/vim-slime')
+
+
+  	  call dein#end()
+  	  call dein#save_state()
+	endif
+
+	if dein#check_install()
+  	  call dein#install()
+	endif
+
+	filetype plugin indent on
+endif
 
 " ================ Custom Functions ====================
 
