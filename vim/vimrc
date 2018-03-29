@@ -1,5 +1,3 @@
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
 set nocompatible
 
 
@@ -116,3 +114,20 @@ function! ToggleWindowHorizontalVerticalSplit()
 endfunction
 
 nnoremap <silent> <leader>r :call ToggleWindowHorizontalVerticalSplit()<cr>
+
+function! s:BoldOff()
+	let hid = 1
+	while 1
+		let hln = synIDattr(hid, 'name')
+		if !hlexists(hln) | break | endif
+		if hid == synIDtrans(hid) && synIDattr(hid, 'bold')
+			let atr = ['underline', 'undercurl', 'reverse', 'inverse', 'italic', 'standout']
+			call filter(atr, 'synIDattr(hid, v:val)')
+			let gui = empty(atr) ? 'NONE' : join(atr, ',')
+			exec 'highlight ' . hln . ' gui=' . gui
+		endif
+		let hid += 1
+	endwhile
+endfunction
+
+call s:BoldOff()
