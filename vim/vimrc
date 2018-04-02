@@ -38,6 +38,8 @@ set hlsearch        		    " highlight matches
 set ignorecase					" ignore case when searching
 set smartcase                   " ...unless we type a capital
 
+set colorcolumn=79              " set vertical line
+
 " ================ Custom Keybinds ====================
 
 let mapleader=","                           " leader is comma
@@ -45,6 +47,7 @@ nnoremap <leader><space> :nohlsearch<CR>    " turn off search highlight
  
 nnoremap <C-Left> :tabprevious<CR>          " allow ctrl + left to go tab left
 nnoremap <C-Right> :tabnext<CR>				" allow ctrl + right to go tab right
+
 
 " ================ Plugin Load - VIM ====================
 
@@ -54,12 +57,28 @@ if !has('nvim')
 
 	Plugin 'jpalardy/vim-slime'
 	Plugin 'jiangmiao/auto-pairs'
+    Plugin 'ervandew/supertab'
+    Plugin 'itchyny/lightline.vim'
+    Plugin 'airblade/vim-gitgutter'
+    Plugin 'scrooloose/nerdtree'
 	
 	call vundle#end()
 	
 	filetype plugin indent on
 
 	let g:slime_target = "vimterminal"
+
+    let g:lightline = {
+    \     'active': {
+    \         'left': [['mode', 'paste' ], ['readonly', 'filename', 'modified']],
+    \         'right': [['lineinfo'], ['percent'], ['fileformat', 'fileencoding']]
+    \      }
+    \ } 
+    
+    set laststatus=2
+
+    map <C-o> :NERDTreeToggle<CR>
+    let NERDTreeShowHidden=1
 
 endif
 
