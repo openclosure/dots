@@ -1,2 +1,5 @@
 
 *.swp
+*.idx
+*.pack
+pycharm/refs/heads/master
