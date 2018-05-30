@@ -16,13 +16,20 @@ syntax enable                   " syntax highlighting
 set encoding=utf-8 			    " mystery encoding option
 set autoread                    " reload files changed outside vim
 
+<<<<<<< HEAD
 set clipboard+=unnamed          " Fix c/p behavior
 
+=======
+>>>>>>> d5f51d0485cf61919e2ff591f1c3b03200dec973
 set wildmenu         		    " visual autocomplete for command menu
 set showmatch          		    " highlight matching [{()}]
 set visualbell                  " no sounds
 set number						" gutter numbers
+<<<<<<< HEAD
 set relativenumber              " relative number
+=======
+set relativenumber              " relative numbers
+>>>>>>> d5f51d0485cf61919e2ff591f1c3b03200dec973
 
 " set nowrap       				" don't wrap lines
 set linebreak    				" wrap lines at convenient points
@@ -188,7 +195,10 @@ if has('nvim')
   	  call dein#install()
 	endif
 
-	filetype plugin indent on
+	let g:slime_target = "neovim"
+    let g:slime_python_ipython = 1 
+	
+    filetype plugin indent on
 endif
 
 " ================ Custom Functions ====================
