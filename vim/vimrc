@@ -6,7 +6,7 @@ set nocompatible
 if has('gui_running')			 " only run if executing as gVim
   set guioptions-=T  			 " no toolbar
   set guioptions-=m              " no menubar
-  set guifont=ProFontWindows:h9  " Font
+  set guifont=ProFontWindows:h8  " Font
   set lines=40 columns=125       " default opening size
   colorscheme monokai			 " default theme
 endif
@@ -16,13 +16,15 @@ syntax enable                   " syntax highlighting
 set encoding=utf-8 			    " mystery encoding option
 set autoread                    " reload files changed outside vim
 
-set cursorline       		    " highlight current line
+set clipboard+=unnamed          " Fix c/p behavior
+
 set wildmenu         		    " visual autocomplete for command menu
 set showmatch          		    " highlight matching [{()}]
 set visualbell                  " no sounds
 set number						" gutter numbers
+set relativenumber              " relative number
 
-set nowrap       				" don't wrap lines
+" set nowrap       				" don't wrap lines
 set linebreak    				" wrap lines at convenient points
 
 set splitbelow                  " Horizontal splits open below current file
@@ -40,14 +42,46 @@ set smartcase                   " ...unless we type a capital
 
 set colorcolumn=79              " set vertical line
 
+" Registers are boring and confusing
+" cut to system clipboard in visual mode
+vnoremap x "*x
+
+" put from system clipboard
+nnoremap p "*p
+vnoremap p "*p
+nnoremap P "*P
+vnoremap P "*P
+
+" yank from system clipboard
+nnoremap y "*y
+vnoremap y "*y
+nnoremap Y "*Y
+vnoremap Y "*Y
+
+" more natural focus changing
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 " ================ Custom Keybinds ====================
 
-let mapleader=","                           " leader is comma
-nnoremap <leader><space> :nohlsearch<CR>    " turn off search highlight
+let mapleader="\<Space>"                           " leader is comma
+nnoremap <leader><,> :nohlsearch<CR>    " turn off search highlight
  
 nnoremap <C-Left> :tabprevious<CR>          " allow ctrl + left to go tab left
 nnoremap <C-Right> :tabnext<CR>				" allow ctrl + right to go tab right
 
+" set cursorline       		    " highlight current line
+" nnoremap <S-Left> :action EditorLeftWithSelection<CR>
+" nnoremap <S-Right> :action EditorRightWithSelection<CR>
+" nnoremap <S-Up> :action EditorUpWithSelection<CR>
+" nnoremap <S-Down> :action EditorDownWithSelection<CR>
+
+" inoremap <S-Left> <C-O>:action EditorLeftWithSelection<CR>
+" inoremap <S-Right> <C-O>:action EditorRightWithSelection<CR>
+" inoremap <S-Up> <C-O>:action EditorUpWithSelection<CR>
+" inoremap <S-Down> <C-O>:action EditorDownWithSelection<CR>
 
 " ================ Plugin Load - VIM ====================
 "
@@ -71,10 +105,31 @@ if !has('nvim')
     Plugin 'itchyny/lightline.vim'
     Plugin 'airblade/vim-gitgutter'
     Plugin 'scrooloose/nerdtree'
+    Plugin 'easymotion/vim-easymotion'
+    " Plugin 'davidhalter/jedi-vim'
+    Plugin 'jalvesaq/Nvim-R'
+    Plugin 'morhetz/gruvbox'
 	
+
 	call vundle#end()
 	
 	filetype plugin indent on
+
+	" NVIM-R Settings
+    let Rtools_path = "C:\\RTools"
+	let R_assign = 0
+	let R_hl_term = 1
+	nmap <Leader>s <Plug>RESendLine
+    vmap <Leader>s <Plug>RESendSelection
+	inoremap <Tab> <C-x><C-o>
+	let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+	let R_in_buffer = 1
+
+	colorscheme gruvbox			 " default theme
+    set background=dark
+
+	" Open RStudio to destination terminal (buggy)
+	"let RStudio_cmd = 'C:\\Program Files\\RStudio\\bin\\rstudio'
 
 	let g:slime_target = "vimterminal"
 
@@ -89,7 +144,18 @@ if !has('nvim')
 
     map <C-o> :NERDTreeToggle<CR>
     let NERDTreeShowHidden=1
-endif
+	
+	augroup myvimrc
+    au!
+    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+	augroup END
+	
+	" Easy Motion
+	let g:EasyMotion_do_mapping = 0
+	nmap s <Plug>(easymotion-overwin-f2)
+	let g:EasyMotion_smartcase = 1
+
+	
 endif
 
 
