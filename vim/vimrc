@@ -16,20 +16,15 @@ syntax enable                   " syntax highlighting
 set encoding=utf-8 			    " mystery encoding option
 set autoread                    " reload files changed outside vim
 
-<<<<<<< HEAD
+
 set clipboard+=unnamed          " Fix c/p behavior
 
-=======
->>>>>>> d5f51d0485cf61919e2ff591f1c3b03200dec973
 set wildmenu         		    " visual autocomplete for command menu
 set showmatch          		    " highlight matching [{()}]
 set visualbell                  " no sounds
 set number						" gutter numbers
-<<<<<<< HEAD
-set relativenumber              " relative number
-=======
+
 set relativenumber              " relative numbers
->>>>>>> d5f51d0485cf61919e2ff591f1c3b03200dec973
 
 " set nowrap       				" don't wrap lines
 set linebreak    				" wrap lines at convenient points
@@ -47,7 +42,7 @@ set hlsearch        		    " highlight matches
 set ignorecase					" ignore case when searching
 set smartcase                   " ...unless we type a capital
 
-set colorcolumn=79              " set vertical line
+" set colorcolumn=79              " set vertical line
 
 " Registers are boring and confusing
 " cut to system clipboard in visual mode
@@ -97,8 +92,8 @@ let hostname = substitute(system('hostname'), '\n', '', '')
 if !has('nvim')
 
     if has('win32')
-	    set rtp+=P:/config/vim/bundle/Vundle.vim
-	    call vundle#begin('P:/config/vim/bundle')
+	    set rtp+=C:/home/config/vim/bundle/Vundle.vim
+	    call vundle#begin('C:/home/config/vim/bundle')
     endif
 
     if has('unix')
@@ -126,36 +121,36 @@ if !has('nvim')
     let Rtools_path = "C:\\RTools"
 	let R_assign = 0
 	let R_hl_term = 1
+	let g:R_openhtml = 0
 	nmap <Leader>s <Plug>RESendLine
     vmap <Leader>s <Plug>RESendSelection
 	inoremap <Tab> <C-x><C-o>
 	let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 	let R_in_buffer = 1
 
+    " Gruvbox Theme
 	colorscheme gruvbox			 " default theme
     set background=dark
+    let g:gruvbox_bold = 0
+    let g:gruvbox_italic = 0
 
 	" Open RStudio to destination terminal (buggy)
 	"let RStudio_cmd = 'C:\\Program Files\\RStudio\\bin\\rstudio'
 
 	let g:slime_target = "vimterminal"
 
+    " Bottom line
     let g:lightline = {
     \     'active': {
     \         'left': [['mode', 'paste' ], ['readonly', 'filename', 'modified']],
     \         'right': [['lineinfo'], ['percent'], ['fileformat', 'fileencoding']]
     \      }
     \ } 
-    
     set laststatus=2
 
-    map <C-o> :NERDTreeToggle<CR>
+    " Nerd Tree
+    map <C-o> :NERDTreeToggle C:/home <CR>
     let NERDTreeShowHidden=1
-	
-	augroup myvimrc
-    au!
-    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-	augroup END
 	
 	" Easy Motion
 	let g:EasyMotion_do_mapping = 0
@@ -220,19 +215,3 @@ endfunction
 
 nnoremap <silent> <leader>r :call ToggleWindowHorizontalVerticalSplit()<cr>
 
-function! s:BoldOff()
-	let hid = 1
-	while 1
-		let hln = synIDattr(hid, 'name')
-		if !hlexists(hln) | break | endif
-		if hid == synIDtrans(hid) && synIDattr(hid, 'bold')
-			let atr = ['underline', 'undercurl', 'reverse', 'inverse', 'italic', 'standout']
-			call filter(atr, 'synIDattr(hid, v:val)')
-			let gui = empty(atr) ? 'NONE' : join(atr, ',')
-			exec 'highlight ' . hln . ' gui=' . gui
-		endif
-		let hid += 1
-	endwhile
-endfunction
-
-call s:BoldOff()
