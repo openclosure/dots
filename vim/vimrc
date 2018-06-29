@@ -6,9 +6,9 @@ set nocompatible
 if has('gui_running')			 " only run if executing as gVim
   set guioptions-=T  			 " no toolbar
   set guioptions-=m              " no menubar
-  set guifont=ProFontWindows:h8  " Font
+  set guifont=Dina:h8  " Font
   set lines=40 columns=125       " default opening size
-  colorscheme monokai			 " default theme
+"  colorscheme monokai			 " default theme
 endif
 
 filetype off                    " required
